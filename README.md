@@ -1,2 +1,2 @@
 # termo-solver
-A solver for term.ooo
+A solver for [term.ooo](https://term.ooo) written in Python
