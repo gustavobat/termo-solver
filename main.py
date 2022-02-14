@@ -25,6 +25,21 @@ def filter_red(words, pos, letter):
     return [word for word in words if word[pos] != letter and word.count(letter) == 0]
 
 
+def most_probable_guess(words, letter_freq, step):
+    guess = ''
+    guess_prob = 0.
+    for word in words:
+        word_prob = 1.
+        for i in range(5):
+            letter = word[i]
+            word_prob *= letter_freq[letter][i]
+        if word_prob > guess_prob:
+            if step == 0 and has_no_repeated_letter(word) or step != 0:
+                guess_prob = word_prob
+                guess = word
+    return guess
+
+
 def get_initial_word_list():
     link = "https://raw.githubusercontent.com/fserb/pt-br/master/dicio"
     f = requests.get(link).text
