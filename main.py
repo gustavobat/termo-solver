@@ -13,6 +13,18 @@ def has_no_repeated_letter(word):
     return True
 
 
+def filter_green(words, pos, letter):
+    return [word for word in words if word[pos] == letter]
+
+
+def filter_yellow(words, pos, letter):
+    return [word for word in words if word[pos] != letter and word.count(letter) != 0]
+
+
+def filter_red(words, pos, letter):
+    return [word for word in words if word[pos] != letter and word.count(letter) == 0]
+
+
 def get_initial_word_list():
     link = "https://raw.githubusercontent.com/fserb/pt-br/master/dicio"
     f = requests.get(link).text
