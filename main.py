@@ -68,11 +68,11 @@ def most_probable_guess(words, letter_freq, step):
 
 
 def get_initial_word_list():
-    link = "https://raw.githubusercontent.com/fserb/pt-br/master/dicio"
+    link = "https://raw.githubusercontent.com/fserb/pt-br/e61813bae8897d299cd95047dbe578c1e3ffd00e/tf"
     f = requests.get(link).text
     f = remove_accents(f)
-
-    return [line for line in f.rsplit() if len(line) == 5]
+    return [line.split(',')[0] for line in f.rsplit() if len(line.split(',')[0]) == 5], \
+           [int(line.split(',')[1]) for line in f.rsplit() if len(line.split(',')[0]) == 5]
 
 
 def get_letter_freq(words):
