@@ -110,6 +110,26 @@ def main():
     letter_freq = get_letter_freq(words)
     good_pick = most_probable_guess(words, letter_freq, 0)
     print(good_pick)
+    answer = [1, 2, 1, 1, 1]
+    words = apply_answer(words, answer, good_pick)
+    letter_freq = get_letter_freq(words)
+    good_pick = most_probable_guess(words, letter_freq, 0)
+    print(good_pick)
+
+    # 0: green
+    # 1: grey
+    # 2: yellow
+    answer = [1, 1, 2, 0, 2]
+    words = apply_answer(words, answer, good_pick)
+    letter_freq = get_letter_freq(words)
+    good_pick = most_probable_guess(words, letter_freq, 0)
+    print(good_pick)
+
+    answer = [2, 2, 0, 0, 0]
+    words = apply_answer(words, answer, good_pick)
+    letter_freq = get_letter_freq(words)
+    good_pick = most_probable_guess(words, letter_freq, 0)
+    print(good_pick)
 
 
 if __name__ == "__main__":
