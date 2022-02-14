@@ -17,9 +17,16 @@ def filter_green(words, pos, letter):
     return [word for word in words if word[pos] == letter]
 
 
-def filter_yellow(words, pos, letter):
-    return [word for word in words if word[pos] != letter and word.count(letter) != 0]
+def filter_yellow(known_cells, words, pos, letter):
+    forbidden_cells = known_cells.copy()
+    forbidden_cells.add(pos)
+    for word in words:
+        for cell in forbidden_cells:
+            if word[cell] == letter or word.count(letter) == 0:
+                words.remove(word)
+                break
 
+    return words
 
 def filter_red(words, pos, letter):
     return [word for word in words if word[pos] != letter and word.count(letter) == 0]
