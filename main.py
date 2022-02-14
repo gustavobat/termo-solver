@@ -6,6 +6,13 @@ def remove_accents(input_str):
     return ''.join(c for c in unicodedata.normalize('NFD', input_str) if unicodedata.category(c) != 'Mn')
 
 
+def has_no_repeated_letter(word):
+    for i in range(len(word)):
+        if word.count(word[i]) > 1:
+            return False
+    return True
+
+
 def get_initial_word_list():
     link = "https://raw.githubusercontent.com/fserb/pt-br/master/dicio"
     f = requests.get(link).text
