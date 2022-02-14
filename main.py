@@ -96,8 +96,17 @@ def get_letter_freq(words):
 
 
 def main():
-    words = get_initial_word_list()
-    print('Possible solutions: ' + str(len(words)))
+    words, freq = get_initial_word_list()
+    weight = [0.0] * len(words)
+
+    count = 0
+    for i in range(len(words)):
+        if freq[i] < 3000:
+            weight[i] = 0.01
+            count += 1
+        else:
+            weight[i] = 1.0
+
     letter_freq = get_letter_freq(words)
     good_pick = most_probable_guess(words, letter_freq, 0)
     print(good_pick)
