@@ -33,6 +33,25 @@ def filter_grey(words, pos, letter):
     return [word for word in words if word[pos] != letter and word.count(letter) == 0]
 
 
+def apply_answer(words, answer, guess):
+    # 0: green
+    # 1: grey
+    # 2: yellow
+    known_cells = set()
+    for i in range(5):
+        if answer[i] == 0:
+            known_cells.add(i)
+    for i in range(len(answer)):
+        if answer[i] == 0:
+            words = filter_green(words, i, guess[i])
+        elif answer[i] == 1:
+            words = filter_grey(words, i, guess[i])
+        elif answer[i] == 2:
+            words = filter_yellow(known_cells, words, i, guess[i])
+
+    return words
+
+
 def most_probable_guess(words, letter_freq, step):
     guess = ''
     guess_prob = 0.
