@@ -1,9 +1,14 @@
+from math import log2
 import requests
 import unicodedata
 
 
 def remove_accents(input_str):
     return ''.join(c for c in unicodedata.normalize('NFD', input_str) if unicodedata.category(c) != 'Mn')
+
+
+def safe_log2(x):
+    return log2(x) if x > 0. else 0.
 
 
 def has_no_repeated_letter(word):
