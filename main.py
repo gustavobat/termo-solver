@@ -70,6 +70,10 @@ def get_letter_freq(words):
 
 def main():
     words = get_initial_word_list()
+    print('Possible solutions: ' + str(len(words)))
+    letter_freq = get_letter_freq(words)
+    good_pick = most_probable_guess(words, letter_freq, 0)
+    print(good_pick)
 
 
 if __name__ == "__main__":
