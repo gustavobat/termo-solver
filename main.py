@@ -28,7 +28,8 @@ def filter_yellow(known_cells, words, pos, letter):
 
     return words
 
-def filter_red(words, pos, letter):
+
+def filter_grey(words, pos, letter):
     return [word for word in words if word[pos] != letter and word.count(letter) == 0]
 
 
