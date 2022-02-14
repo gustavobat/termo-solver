@@ -54,12 +54,12 @@ def get_letter_freq(words):
     letter_freq = dict()
 
     for letter in letters:
-        letter_freq[letter] = [0] * 5
+        letter_freq[letter] = [0.] * 5
 
     for word in words:
         for i in range(5):
             letter = word[i]
-            letter_freq[letter][i] += 1
+            letter_freq[letter][i] += 1.
 
     for i in range(5):
         for letter in letters:
