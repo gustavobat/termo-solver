@@ -14,6 +14,26 @@ def get_initial_word_list():
     return [line for line in f.rsplit() if len(line) == 5]
 
 
+def get_letter_freq(words):
+    n_words = len(words)
+    letters = "abcdefghijklmnopqrstuvxwyz"
+    letter_freq = dict()
+
+    for letter in letters:
+        letter_freq[letter] = [0] * 5
+
+    for word in words:
+        for i in range(5):
+            letter = word[i]
+            letter_freq[letter][i] += 1
+
+    for i in range(5):
+        for letter in letters:
+            letter_freq[letter][i] = float(letter_freq[letter][i]) / float(n_words)
+
+    return letter_freq
+
+
 def main():
     words = get_initial_word_list()
 
