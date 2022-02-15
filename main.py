@@ -131,39 +131,26 @@ def get_word_entropy(word, words):
 
 def main():
     words, freq = get_initial_word_list()
-    weight = [0.0] * len(words)
-
-    count = 0
+    print(len(words))
+    copy_words = words.copy()
     for i in range(len(words)):
-        if freq[i] < 3000:
-            weight[i] = 0.01
-            count += 1
-        else:
-            weight[i] = 1.0
+        if freq[i] < 10000:
+            copy_words.remove(words[i])
 
-    letter_freq = get_letter_freq(words)
-    good_pick = most_probable_guess(words, letter_freq, 0)
-    print(good_pick)
-    answer = [1, 2, 1, 1, 1]
-    words = apply_answer(words, answer, good_pick)
-    letter_freq = get_letter_freq(words)
-    good_pick = most_probable_guess(words, letter_freq, 0)
-    print(good_pick)
+    print(len(copy_words))
+    #weight = [0.0] * len(words)
 
-    # 0: green
-    # 1: grey
-    # 2: yellow
-    answer = [1, 1, 2, 0, 2]
-    words = apply_answer(words, answer, good_pick)
-    letter_freq = get_letter_freq(words)
-    good_pick = most_probable_guess(words, letter_freq, 0)
-    print(good_pick)
-
-    answer = [2, 2, 0, 0, 0]
-    words = apply_answer(words, answer, good_pick)
-    letter_freq = get_letter_freq(words)
-    good_pick = most_probable_guess(words, letter_freq, 0)
-    print(good_pick)
+    # for i in range(len(words)):
+    #    weight[i] = 0.01 if freq[i] < 3000 else 1.0
+    words = copy_words
+    best_initial_pick = ''
+    best_initial_pick_entropy = 0.
+    for word in words:
+        entropy = get_word_entropy(word, words)
+        if entropy > best_initial_pick_entropy:
+            best_initial_pick = words
+            best_initial_pick_entropy = entropy
+    print("Best initial word: " + best_initial_pick)
 
 
 if __name__ == "__main__":
