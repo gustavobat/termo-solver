@@ -111,6 +111,24 @@ def get_letter_freq(words):
     return letter_freq
 
 
+def get_word_entropy(word, words):
+    n_words = float(len(words))
+    entropy = 0.
+    for a0 in range(3):
+        for a1 in range(3):
+            for a2 in range(3):
+                for a3 in range(3):
+                    for a4 in range(3):
+                        answer = [a0, a1, a2, a3, a4]
+                        remaining_words = words.copy()
+                        remaining_words = apply_answer(remaining_words, answer, word)
+                        n_remaining_words = float(len(remaining_words))
+                        prob = n_remaining_words / n_words
+                        entropy += -1 * prob * safe_log2(prob)
+    print("Word: " + word + ", entropy: " + str(entropy))
+    return entropy
+
+
 def main():
     words, freq = get_initial_word_list()
     weight = [0.0] * len(words)
