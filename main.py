@@ -44,6 +44,7 @@ def apply_answer(words, answer, guess):
     # 0: green
     # 1: grey
     # 2: yellow
+    words.remove(guess)
     known_cells = set()
     for i in range(5):
         if answer[i] == 0:
