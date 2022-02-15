@@ -26,6 +26,14 @@ def get_initial_word_list():
            [int(line.split(',')[1]) for line in f.rsplit() if len(line.split(',')[0]) == 5]
 
 
+def filter_unusual_words(words, freq, threshold):
+    filtered_words = list()
+    for i in range(len(words)):
+        if freq[i] > threshold:
+            filtered_words.append(words[i])
+    return filtered_words
+
+
 def filter_green(words, pos, letter):
     return [word for word in words if word[pos] == letter]
 
@@ -91,20 +99,12 @@ def get_word_entropy(word, words):
 
 def main():
     words, freq = get_initial_word_list()
+    words = filter_unusual_words(words, freq, 3000)
+
     print(len(words))
-    copy_words = words.copy()
-    for i in range(len(words)):
-        if freq[i] < 10000:
-            copy_words.remove(words[i])
 
-    print(len(copy_words))
-    #weight = [0.0] * len(words)
-
-    # for i in range(len(words)):
-    #    weight[i] = 0.01 if freq[i] < 3000 else 1.0
-    words = copy_words
-    best_initial_pick = ''
-    best_initial_pick_entropy = 0.
+    pick = ''
+    pick_entropy = 0.
     for word in words:
         entropy = get_word_entropy(word, words)
         if entropy > best_initial_pick_entropy:
