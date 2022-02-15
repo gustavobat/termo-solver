@@ -107,10 +107,10 @@ def main():
     pick_entropy = 0.
     for word in words:
         entropy = get_word_entropy(word, words)
-        if entropy > best_initial_pick_entropy:
-            best_initial_pick = words
-            best_initial_pick_entropy = entropy
-    print("Best initial word: " + best_initial_pick)
+        if entropy > pick_entropy:
+            pick = word
+            pick_entropy = entropy
+    print("Best first word: " + pick)
 
 
 if __name__ == "__main__":
