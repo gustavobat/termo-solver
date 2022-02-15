@@ -26,13 +26,14 @@ def filter_green(words, pos, letter):
 def filter_yellow(known_cells, words, pos, letter):
     forbidden_cells = known_cells.copy()
     forbidden_cells.add(pos)
+    new_words = list()
     for word in words:
         for cell in forbidden_cells:
-            if word[cell] == letter or word.count(letter) == 0:
-                words.remove(word)
+            if word[cell] != letter and word.count(letter) != 0:
+                new_words.append(word)
                 break
 
-    return words
+    return new_words
 
 
 def filter_grey(words, pos, letter):
