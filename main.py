@@ -1,4 +1,5 @@
 from math import log2
+import os
 import requests
 import unicodedata
 
@@ -73,8 +74,18 @@ def most_probable_guess(words, letter_freq, step):
 
 
 def get_initial_word_list():
-    link = "https://raw.githubusercontent.com/fserb/pt-br/e61813bae8897d299cd95047dbe578c1e3ffd00e/tf"
-    f = requests.get(link).text
+
+    file_name = "word_list.txt"
+    if not os.path.exists(file_name):
+        with open(file_name, 'wb') as fout:
+            url = "https://raw.githubusercontent.com/fserb/pt-br/e61813bae8897d299cd95047dbe578c1e3ffd00e/tf"
+            response = requests.get(url, stream=True)
+            response.raise_for_status()
+            for block in response.iter_content(4096):
+                fout.write(block)
+            fout.close()
+
+    f = open(file_name, "r").read()
     f = remove_accents(f)
     return [line.split(',')[0] for line in f.rsplit() if len(line.split(',')[0]) == 5], \
            [int(line.split(',')[1]) for line in f.rsplit() if len(line.split(',')[0]) == 5]
