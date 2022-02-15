@@ -8,15 +8,22 @@ def remove_accents(input_str):
     return ''.join(c for c in unicodedata.normalize('NFD', input_str) if unicodedata.category(c) != 'Mn')
 
 
-def safe_log2(x):
-    return log2(x) if x > 0. else 0.
+def get_initial_word_list():
 
+    file_name = "word_list.txt"
+    if not os.path.exists(file_name):
+        with open(file_name, 'wb') as fout:
+            url = "https://raw.githubusercontent.com/fserb/pt-br/e61813bae8897d299cd95047dbe578c1e3ffd00e/tf"
+            response = requests.get(url, stream=True)
+            response.raise_for_status()
+            for block in response.iter_content(4096):
+                fout.write(block)
+            fout.close()
 
-def has_no_repeated_letter(word):
-    for i in range(len(word)):
-        if word.count(word[i]) > 1:
-            return False
-    return True
+    f = open(file_name, "r").read()
+    f = remove_accents(f)
+    return [line.split(',')[0] for line in f.rsplit() if len(line.split(',')[0]) == 5], \
+           [int(line.split(',')[1]) for line in f.rsplit() if len(line.split(',')[0]) == 5]
 
 
 def filter_green(words, pos, letter):
@@ -60,57 +67,8 @@ def apply_answer(words, answer, guess):
     return words
 
 
-def most_probable_guess(words, letter_freq, step):
-    guess = ''
-    guess_prob = 0.
-    for word in words:
-        word_prob = 1.
-        for i in range(5):
-            letter = word[i]
-            word_prob *= letter_freq[letter][i]
-        if word_prob > guess_prob:
-            if step == 0 and has_no_repeated_letter(word) or step != 0:
-                guess_prob = word_prob
-                guess = word
-    return guess
-
-
-def get_initial_word_list():
-
-    file_name = "word_list.txt"
-    if not os.path.exists(file_name):
-        with open(file_name, 'wb') as fout:
-            url = "https://raw.githubusercontent.com/fserb/pt-br/e61813bae8897d299cd95047dbe578c1e3ffd00e/tf"
-            response = requests.get(url, stream=True)
-            response.raise_for_status()
-            for block in response.iter_content(4096):
-                fout.write(block)
-            fout.close()
-
-    f = open(file_name, "r").read()
-    f = remove_accents(f)
-    return [line.split(',')[0] for line in f.rsplit() if len(line.split(',')[0]) == 5], \
-           [int(line.split(',')[1]) for line in f.rsplit() if len(line.split(',')[0]) == 5]
-
-
-def get_letter_freq(words):
-    n_words = len(words)
-    letters = "abcdefghijklmnopqrstuvxwyz"
-    letter_freq = dict()
-
-    for letter in letters:
-        letter_freq[letter] = [0.] * 5
-
-    for word in words:
-        for i in range(5):
-            letter = word[i]
-            letter_freq[letter][i] += 1.
-
-    for i in range(5):
-        for letter in letters:
-            letter_freq[letter][i] = float(letter_freq[letter][i]) / float(n_words)
-
-    return letter_freq
+def safe_log2(x):
+    return log2(x) if x > 0. else 0.
 
 
 def get_word_entropy(word, words):
